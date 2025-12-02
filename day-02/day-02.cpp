@@ -28,15 +28,6 @@ vector<string> split_string_by(string input, string delimiter) {
     return output;
 }
 
-string convert_vector_to_string(vector<string> input) {
-    string output;
-    for (string i : input) {
-        output.append(i);
-    }
-
-    return output;
-}
-
 size_t get_invalid_ids(string filePath) {
     ifstream t(filePath);
     string str((istreambuf_iterator<char>(t)),
@@ -83,30 +74,22 @@ size_t get_all_repeat_ids(string filePath) {
         for (size_t index = num1; index <= num2; index++) {
             string input = to_string(index);
             size_t len = input.length();
-            vector<string> pattern = {};
+            string pattern;
 
             for (int k = 0; k < len; k++) {
                 int p_len = pattern.size();
                 
                 if (p_len == 0) {
-                    pattern.push_back(input.substr(k, 1));
+                    pattern.append(input.substr(k, 1));
                     continue;
                 }
 
-                string p = convert_vector_to_string(pattern);
-
-                if (p.compare(input.substr(k, p_len)) == 0) {
-
-                    if (len == 2) {
-                        total += index;
-                        break;
-                    }
-
-                    bool matching = false;
+                if (pattern.compare(input.substr(k, p_len)) == 0) {
+                    bool matching = len == 2;
                     int pos = p_len;
 
-                    while (pos <= len) {
-                        if (p.compare(input.substr(pos, p_len)) == 0) {
+                    while (pos <= len && !matching) {
+                        if (pattern.compare(input.substr(pos, p_len)) == 0) {
                             pos += p_len;
                             if (pos == len) {
                                 matching = true;
@@ -119,12 +102,10 @@ size_t get_all_repeat_ids(string filePath) {
                     if (matching) {
                         total += index;
                         break;
-                    } else {
-                        pattern.push_back(input.substr(k, 1));
                     }
-                } else {
-                    pattern.push_back(input.substr(k, 1));
                 }
+
+                pattern.append(input.substr(k, 1));
             }
         }
     }
