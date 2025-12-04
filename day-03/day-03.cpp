@@ -3,13 +3,16 @@
 #include <iostream>
 #include <vector>
 #include <cmath>
+#include <algorithm>
 
 using namespace std;
 
 int get_highest_voltage(string filePath);
+size_t get_highest_voltage(string filePath, int batteries);
 
 int main() {
     cout << get_highest_voltage("input.txt") << "\n";
+    cout << get_highest_voltage("input.txt", 12) << "\n";
 }
 
 int get_highest_voltage(string filePath) {
@@ -38,6 +41,45 @@ int get_highest_voltage(string filePath) {
         }
 
         total += stoi(to_string(first).append(to_string(second)));
+    }
+
+    return total;
+}
+
+size_t get_highest_voltage(string filePath, int batteries) {
+    ifstream input(filePath);
+    
+    size_t total = 0;
+    for(string line; getline( input, line );) {
+        vector<int> output;
+        int length = line.length();
+        int index = 0;
+
+        for (int i = 0; i < batteries; i++) {
+            for (int k = index; k < length; k++) {
+                int temp = line[k] - '0';
+                for (int j = k + 1; j < length; j++) {
+                    if ((line[j] - '0' > temp) && ((length - j) > (12 - (output.size() + 1)))) {
+                       temp = line[j] - '0';
+                       index = j + 1;
+                    }
+                }
+
+                bool shouldUpdate = (temp >= line[k] - '0' || index == k);
+                if (shouldUpdate) {
+                    index = index == k ? index + 1 : index;
+                    output.push_back(temp);
+                    break;
+                }
+            }
+        }
+
+        string value;
+        for (int c: output) {
+            value.append(to_string(c));
+        }
+
+        total += stol(value);
     }
 
     return total;
