@@ -29,9 +29,9 @@ size_t get_fresh_food(string filePath) {
         }
     }
 
-    for (size_t id: ids) {
-        for (int i = 0; i < ranges.size(); i++) {
-            if (id >= ranges[i].first && id <= ranges[i].second) {
+    for (const size_t& id: ids) {
+        for (const auto& range : ranges) {
+            if (id >= range.first && id <= range.second) {
                 fresh.push_back(id);
                 break;
             }
@@ -72,7 +72,7 @@ size_t get_all_fresh_food(string filePath) {
     }
 
     size_t total = 0;
-    for (const auto &range: new_ranges) {
+    for (const auto& range: new_ranges) {
         total += (range.second - range.first) + 1;
     }
 
