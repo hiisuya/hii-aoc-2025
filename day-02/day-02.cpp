@@ -1,8 +1,4 @@
-#include <fstream>
-#include <string>
-#include <iostream>
-#include <vector>
-#include <cmath>
+#include "../helper.h"
 
 using namespace std;
 
