@@ -3,11 +3,9 @@
 using namespace std;
 
 size_t get_accumulative_total(string filePath);
-size_t get_accumulative_total_rl(string filePath);
 
 int main() {
     cout << get_accumulative_total("input.txt") << "\n";
-    cout << get_accumulative_total_rl("test.txt") << "\n";
 }
 
 struct Problem {
